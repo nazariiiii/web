@@ -1,0 +1,162 @@
+    body {
+        background-color: rgb(255, 255, 255);
+        justify-content: center;
+        align-items: center;
+        color: rgb(0, 0, 0);
+        transition: .5s ease;
+    }
+    
+    .navbar {
+        display: flex;
+        justify-content: center;
+        gap: 150px;
+        margin: 30px;
+    }
+    
+    .navbar img {
+        padding-left: 20%;
+    }
+    
+    .navbar a {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        position: relative;
+        font-size: 20px;
+        transition: .5s ease;
+    }
+    
+    .navbar a:hover {
+        color: #34e7e4;
+    }
+    
+    .navbar a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #34e7e4;
+        transition: 0.3s ease;
+    }
+    
+    .navbar a:hover::after {
+        width: 100%;
+    }
+    
+    .video {
+        display: flex;
+        justify-content: space-around;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .video img {
+        position: absolute;
+        top: 500px;
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+    }
+    
+    .left img {
+        left: 0;
+    }
+    
+    .center img {
+        z-index: 3;
+        width: 600px;
+        height: 600px;
+        left: 600px;
+        top: 300px;
+    }
+    
+    .text {
+        z-index: 1;
+        position: absolute;
+        top: 150px;
+        text-align: center;
+        left: 25%;
+        font-family: "Bebas Neue", sans-serif;
+        line-height: 5px;
+    }
+    
+    .text h1 {
+        left: 50%;
+        color: black;
+        font-family: "Anton", sans-serif;
+        font-size: 65px;
+        font-weight: 500;
+    }
+    
+    .text p {
+        left: 50%;
+        color: black;
+        font-family: "Anton", sans-serif;
+        font-size: 70px;
+        font-weight: 500;
+    }
+    
+    .about p {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        width: 70%;
+        margin: 0 auto;
+        right: -80vw;
+        font-family: "Bebas Neue", sans-serif;
+    }
+    
+    .phototext1 {
+        position: relative;
+        z-index: 1;
+        left: 250px;
+        top: 680px;
+    }
+    
+    .trends {
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+    }
+    
+    .trends ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+    }
+    
+    .trends img {
+        height: 600px;
+    }
+    
+    footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #dadada;
+    }
+    
+    .blocks {
+        display: flex;
+        gap: 300px;
+        justify-content: center;
+    }
+    
+    .block1 {
+        text-align: center;
+        width: 30%;
+    }
+    
+    .block2 {
+        text-align: center;
+        width: 30%;
+    }
+    
+    .icon {
+        position: absolute;
+        cursor: pointer;
+        top: 27px;
+    }
