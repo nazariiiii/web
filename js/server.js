@@ -23,41 +23,49 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // Обробка форми
     if (req.url === '/submit' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => body += chunk.toString());
         req.on('end', async() => {
-            const { name, email, shoes } = JSON.parse(body);
+            const { name, email, shus } = JSON.parse(body); // змінити на shus, якщо потрібно
             await pool.query(
-                'INSERT INTO form(name, email, shoes) VALUES($1, $2, $3)', [name, email, shoes]
+                'INSERT INTO form(name, email, shoes) VALUES($1, $2, $3)', [name, email, shus]
             );
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             res.end('Дані збережено!');
         });
-    } else {
-        // Віддаємо статичні файли
-        let filePath = path.join(__dirname, req.url === '/' ? 'html/index.html' : req.url);
-        const ext = path.extname(filePath).toLowerCase();
-        const mimeTypes = {
-            '.html': 'text/html',
-            '.css': 'text/css',
-            '.js': 'application/javascript',
-            '.png': 'image/png',
-            '.jpg': 'image/jpeg',
-            '.gif': 'image/gif'
-        };
-        const contentType = mimeTypes[ext] || 'text/plain';
-
-        fs.readFile(filePath, (err, content) => {
-            if (err) {
-                res.writeHead(404);
-                res.end('Not found');
-            } else {
-                res.writeHead(200, { 'Content-Type': contentType });
-                res.end(content);
-            }
-        });
+        return;
     }
+
+    // Віддаємо статичні файли
+    let filePath;
+    if (req.url === '/' || req.url === '/main.html') {
+        filePath = path.join(__dirname, 'html', 'main.html');
+    } else {
+        filePath = path.join(__dirname, req.url.startsWith('/css') ? req.url : req.url.startsWith('/js') ? req.url : 'html', req.url);
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.css': 'text/css',
+        '.js': 'application/javascript',
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.gif': 'image/gif'
+    };
+    const contentType = mimeTypes[ext] || 'text/plain';
+
+    fs.readFile(filePath, (err, content) => {
+        if (err) {
+            res.writeHead(404);
+            res.end('Not found');
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content);
+        }
+    });
 });
 
 server.listen(process.env.PORT || 3000, () => console.log('Server running'));
