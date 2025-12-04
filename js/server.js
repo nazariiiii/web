@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
 
+// Підключення до PostgreSQL
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -12,7 +13,7 @@ const pool = new Pool({
 });
 
 const server = http.createServer((req, res) => {
-    // CORS заголовки
+    // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -23,17 +24,23 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // Обробка форми
+    // POST /submit
     if (req.url === '/submit' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => body += chunk.toString());
         req.on('end', async() => {
-            const { name, email, shus } = JSON.parse(body); // змінити на shus, якщо потрібно
-            await pool.query(
-                'INSERT INTO form(name, email, shoes) VALUES($1, $2, $3)', [name, email, shus]
-            );
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Дані збережено!');
+            try {
+                const { name, email, shoes } = JSON.parse(body);
+                await pool.query(
+                    'INSERT INTO form(name, email, shoes) VALUES($1, $2, $3)', [name, email, shus]
+                );
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end('Дані збережено!');
+            } catch (err) {
+                console.error(err);
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Помилка сервера');
+            }
         });
         return;
     }
@@ -42,8 +49,16 @@ const server = http.createServer((req, res) => {
     let filePath;
     if (req.url === '/' || req.url === '/main.html') {
         filePath = path.join(__dirname, 'html', 'main.html');
+    } else if (req.url.startsWith('/css')) {
+        filePath = path.join(__dirname, req.url);
+    } else if (req.url.startsWith('/js')) {
+        filePath = path.join(__dirname, req.url);
+    } else if (req.url.startsWith('/html')) {
+        filePath = path.join(__dirname, req.url);
     } else {
-        filePath = path.join(__dirname, req.url.startsWith('/css') ? req.url : req.url.startsWith('/js') ? req.url : 'html', req.url);
+        res.writeHead(404);
+        res.end('Not found');
+        return;
     }
 
     const ext = path.extname(filePath).toLowerCase();
