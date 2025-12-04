@@ -36,7 +36,7 @@ const server = http.createServer((req, res) => {
         });
     } else {
         // Віддаємо статичні файли
-        let filePath = path.join(__dirname, req.url === '/' ? 'html/index.html' : req.url);
+        let filePath = path.join(__dirname, req.url === '/' ? 'html/main.html' : req.url);
         const ext = path.extname(filePath).toLowerCase();
         const mimeTypes = {
             '.html': 'text/html',
