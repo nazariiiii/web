@@ -160,3 +160,24 @@
         cursor: pointer;
         top: 27px;
     }
+    
+    .formcon {
+        display: grid;
+        justify-content: center;
+        margin-left: 35%;
+        margin-top: 5%;
+        max-width: 30vw;
+    }
+    
+    .formcon form {
+        display: grid;
+        max-width: fit-content;
+        margin-left: 30%;
+        gap: 25%;
+    }
+    
+    .formcon h1,
+    p {
+        text-align: center;
+        font-family: "Bebas Neue", sans-serif;
+    }
