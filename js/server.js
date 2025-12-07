@@ -12,7 +12,6 @@ const pool = new Pool({
 });
 
 const server = http.createServer((req, res) => {
-    // CORS заголовки
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -35,8 +34,8 @@ const server = http.createServer((req, res) => {
             res.end('Дані збережено!');
         });
     } else {
-        // Віддаємо статичні файли
-        let filePath = path.join(__dirname, req.url === '/' ? 'html/index.html' : req.url);
+        let filePath = path.join(__dirname, 'public', req.url === '/' ? 'html/main.html' : req.url);
+
         const ext = path.extname(filePath).toLowerCase();
         const mimeTypes = {
             '.html': 'text/html',
